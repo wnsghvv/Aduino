@@ -1,0 +1,105 @@
+#include <Servo.h> //
+#include <MsTimer2.h>;
+Servo sl, sr;
+#define speakerPin 3
+int ledpin = 2;
+
+/*void tone(){
+
+tone(speakerPin, 440, 500); }*/
+
+void setup() { Serial.begin(9600); pinMode(7, INPUT_PULLUP);
+
+pinMode(5, INPUT_PULLUP);
+
+sl.attach(12);
+
+sr.attach(13);
+
+pinMode(speakerPin, OUTPUT);
+
+pinMode(ledpin, OUTPUT);
+
+}
+
+void loop()
+
+{
+
+byte wl = digitalRead(5);
+
+byte wr = digitalRead(7);
+digitalWrite(ledpin, LOW);
+
+if ((wl == 0) && (wr == 0)){
+
+backward(1000); // Back up 1 second
+
+turnLeft(800); // Turn left about 120 degrees
+
+}
+
+else if (wl == 0){
+
+backward(1000); // Back up 1 second
+
+turnRight(600); // Turn right about 60 degrees
+
+}
+
+else if (wr == 0){
+
+backward(1000); // Back up 1 second
+
+turnLeft(600); // Turn left about 60 degrees
+
+}
+
+else{
+
+forward(20); // Forward 1/50 of a second
+
+}
+
+}
+
+void forward(int time){
+
+sl.write(1700);
+
+sr.write(1300);
+
+delay(time);
+
+}
+
+void turnLeft(int time){
+
+sl.write(1300);
+
+sr.write(1300);
+
+delay(time);
+
+}
+
+void turnRight(int time){
+
+sl.write(1700);
+
+sr.write(1700);
+
+delay(time);
+
+}
+
+void backward(int time) {
+
+sl.write(1300);
+
+sr.write(1700);
+digitalWrite(ledpin, HIGH);
+tone(speakerPin, 440, 500);
+delay(time);
+
+}
